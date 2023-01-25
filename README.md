@@ -1,21 +1,48 @@
-# stm32-lorawan
-You need to connect default Arduino shield UART pins to other pins on the Nucleo: (PA3 > PA10, PA2 > PA9)
+# STM32 LoraWan
 
-# Instrukcja uruchomienia
+Embedded Systems IOT project that utilizes STM32 L152 Nucleo, OpenWeatherMap to
+create a simple home weather station.
 
-https://github.com/stm32duino/wiki/wiki/Getting-Started
+Developed for IOT: Internet of Things course @ WUT Warsaw University of
+Technology.
 
-W Arduino IDE w Preferancjach wkleić do "Dodatkowe adresy URL do menedżera płytek": https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json
+Visit the [Wiki](https://github.com/piotrs112/stm32-lorawan/wiki) to read more
+about the project.
 
-### NASTĘPNIE TRZEBA POBRAĆ DWIE BIBLIOTEKI W ARDUINO
+<h6>
+  Warning: Currently project's Wiki is only in Polish, as the course is in Polish
+</h6>
 
-Do LoRa:	https://github.com/stm32duino/I-NUCLEO-LRWAN1
+# Features
 
-Do czujnika:	https://blog.elektroweb.pl/bme280-czujnik-wilgotnosci-cisnienia-i-temperatury-podpiecie-do-arduino/
+- Requesting data from OpenWeatherMap for outside weather data,
+- BME280 Sensor to read surrouding's general temperature, humidity and pressure
+- MCP9808 Sensor to read surrouding's accurate temperature.
 
-### USTAWIENIA ARDUINO IDE BY DZIALAŁO Z NUCLEO
+# Built with
 
-![alt text](https://github.com/piotrs112/stm32-lorawan/blob/main/ustawienia.png)
+- STM32 L152 Nucleo-64 development board,
+- USI STM32 Nucleo expansion board for LoRa,
+- BME280 I2C/SPI breakout board,
 
-### WAŻNE
-Kod jest od razu napisany i dla Mastera i dla Slave'a. Wystarczy tylko przy wgrywaniu zmienić wartość zmiennej master_or_slave, na odpowiednią wartość (MASTER lub SLAVE)
+# File structure:
+
+```
+|
+|-- src
+|   |
+|   |- main.h
+|   |- main.cpp
+|   |- lora.h (interfacing with LoRa WAN Shield)
+|   |- lora.cpp
+|   |- bme280_sensor.h (interfacing, using Adafruit BME280 sensor)
+|   |- bme280_sensor.cpp
+|
+|- LICENSE
+|- platformio.ini
+|- README.md --> This file
+```
+
+## Future development note
+
+Project was built using PlatformIO extension for VSCode.
