@@ -66,7 +66,7 @@ void LoRa::ReceiveMessage(DataReceived_t *data, uint8_t message[])
     memset(message, 0, 8);
 
     /* Message strings array */
-    String serialMessage[5] = {
+    String serialMessage[3] = {
         "[INFO] New data packet received",
         "Temperature: " + String(data->temperature) + " \u00b0C",
         "Pressure: " + String(data->pressure) + " hPa",
@@ -76,6 +76,4 @@ void LoRa::ReceiveMessage(DataReceived_t *data, uint8_t message[])
     {
         Serial.println(serialMessage[idx]);
     }
-
-    Serial.println();
 }
