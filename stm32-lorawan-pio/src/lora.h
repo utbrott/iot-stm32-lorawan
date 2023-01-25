@@ -22,8 +22,9 @@ namespace LoRa
      * Init Arduino Serial and LoRa module
      * Init BME280 sensor if LoRa is specififed as SLAVE
      */
-    void
-    ShieldInit(ModuleType_t moduleType);
+    void ShieldInit(ModuleType_t moduleType);
+    void DataInit(DataReceived_t *data);
+
 };
 
 #endif /* _LORA_H */

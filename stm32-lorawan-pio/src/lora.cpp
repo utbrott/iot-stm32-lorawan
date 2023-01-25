@@ -17,6 +17,14 @@ void LoRa::ShieldInit(ModuleType_t moduleType)
 
     if (moduleType)
     {
-        BME280::SensorInit();
+        BME280::HardwareInit();
     }
+}
+
+void LoRa::DataInit(DataReceived_t *data)
+{
+    data->temperature = 0;
+    data->pressure = 0;
+    data->altitude = 0;
+    data->humidity = 0;
 }

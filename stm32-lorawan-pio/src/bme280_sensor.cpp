@@ -2,7 +2,7 @@
 
 Adafruit_BME280 sensor;
 
-void BME280::SensorInit(void)
+void BME280::HardwareInit(void)
 {
     while (!Serial.available())
     {
@@ -22,4 +22,12 @@ void BME280::SensorInit(void)
     }
 
     Serial.println("BME280 sensor connected.");
+}
+
+void BME280::DataInit(DataRead_t *data)
+{
+    data->temperature = 0;
+    data->pressure = 0;
+    data->altitude = 0;
+    data->humidity = 0;
 }
