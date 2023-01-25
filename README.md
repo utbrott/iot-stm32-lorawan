@@ -1,7 +1,6 @@
 # STM32 LoraWan
 
-Embedded Systems IOT project that utilizes STM32 L152 Nucleo, OpenWeatherMap to
-create a simple home weather station.
+Embedded Systems IOT project that utilizes STM32 L152 Nucleo and USI STM32 to create a two-way LoRa message exchange.
 
 Developed for IOT: Internet of Things course @ WUT Warsaw University of
 Technology.
@@ -15,9 +14,8 @@ about the project.
 
 # Features
 
-- Requesting data from OpenWeatherMap for outside weather data,
-- BME280 Sensor to read surrouding's general temperature, humidity and pressure
-- MCP9808 Sensor to read surrouding's accurate temperature.
+- BME280 Sensor to read surrouding's general temperature and pressure
+- Request to measuring SLAVE is sent only when button on MASTER board is pressed,
 
 # Built with
 
