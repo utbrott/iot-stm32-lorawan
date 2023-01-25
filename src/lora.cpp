@@ -6,6 +6,7 @@ void LoRa::ShieldInit(ModuleType_t moduleType)
 {
     Serial.begin(115200);
     Serial.println("IOT::LoRa");
+    Serial.println(String(moduleType));
 
     while (!loraRadio.begin(&SerialLora))
     {
