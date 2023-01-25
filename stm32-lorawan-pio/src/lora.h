@@ -14,8 +14,8 @@ namespace LoRa
 
     typedef enum
     {
-        MASTER = 0,
-        SLAVE = 1,
+        SLAVE,
+        MASTER,
     } ModuleType_t;
 
     /**

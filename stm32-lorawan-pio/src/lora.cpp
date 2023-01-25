@@ -15,7 +15,7 @@ void LoRa::ShieldInit(ModuleType_t moduleType)
 
     Serial.print("LoRa module ready!");
 
-    if (moduleType)
+    if (moduleType == SLAVE)
     {
         BME280::HardwareInit();
     }
