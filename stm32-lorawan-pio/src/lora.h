@@ -9,16 +9,21 @@
 
 #define SEND_PERIOD_MS 5000
 
-typedef enum
+namespace LoRa
 {
-    MASTER = 0,
-    SLAVE = 1,
-} LoraModule_t;
 
-/**
- * Init Arduino Serial and LoRa module
- * Init BME280 sensor if LoRa is specififed as SLAVE
- */
-void LoraInit(LoraModule_t moduleType);
+    typedef enum
+    {
+        MASTER = 0,
+        SLAVE = 1,
+    } ModuleType_t;
+
+    /**
+     * Init Arduino Serial and LoRa module
+     * Init BME280 sensor if LoRa is specififed as SLAVE
+     */
+    void
+    ShieldInit(ModuleType_t moduleType);
+};
 
 #endif /* _LORA_H */

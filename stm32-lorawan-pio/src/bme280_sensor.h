@@ -12,6 +12,10 @@
 #define SCL_PIN PB6
 #define SENSOR_ADDR 0x77
 
-void SensorInit(void);
+namespace BME280
+{
+    /* Inits BME280 sensor*/
+    void SensorInit(void);
+};
 
 #endif /* _BME_280 */

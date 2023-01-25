@@ -2,7 +2,7 @@
 
 Adafruit_BME280 sensor;
 
-void SensorInit(void)
+void BME280::SensorInit(void)
 {
     while (!Serial.available())
     {

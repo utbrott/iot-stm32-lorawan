@@ -2,7 +2,7 @@
 
 HardwareSerial SerialLora(PA10, PA9);
 
-void LoraInit(LoraModule_t moduleType)
+void LoRa::ShieldInit(ModuleType_t moduleType)
 {
     Serial.begin(115200);
     Serial.println("IOT::LoRa");
@@ -17,6 +17,6 @@ void LoraInit(LoraModule_t moduleType)
 
     if (moduleType)
     {
-        SensorInit(); /* Init BME280 sensor */
+        BME280::SensorInit();
     }
 }
