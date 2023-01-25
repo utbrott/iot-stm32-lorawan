@@ -4,7 +4,7 @@
  * Defines how the module behaves
  * Options: MASTER, SLAVE
  */
-#define MODULE_TYPE LoRa::SLAVE
+#define MODULE_TYPE LoRa::MASTER
 
 uint8_t requestMessage[1];
 uint8_t receivedMessage[8];
@@ -43,18 +43,11 @@ void loop()
     if (loraRadio.read(requestMessage) == 0x04)
     {
       memset(requestMessage, 0, 1);
+      Serial.println("[INFO] Data request received");
 
       BME280::ReadData(&sensorData);
       LoRa::SendResponse(&sensorData);
-      // currentTime = millis();
-      // nextMessage = false;
     }
-
-    // if (millis() - currentTime >= SEND_PERIOD_MS)
-    // {
-    //   nextMessage = true;
-    // }
-
     break;
 
   case LoRa::MASTER:
@@ -68,7 +61,6 @@ void loop()
     {
       LoRa::ReadResponse(&receivedData, receivedMessage);
     }
-
     break;
 
   default:

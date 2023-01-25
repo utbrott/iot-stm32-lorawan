@@ -6,7 +6,6 @@ void LoRa::ShieldInit(ModuleType_t moduleType)
 {
     Serial.begin(115200);
 
-    Serial.println("**** IOT ****");
     switch (moduleType)
     {
     case SLAVE:
@@ -43,7 +42,6 @@ void LoRa::DataInit(DataReceived_t *data)
 
 void LoRa::SendRequest(void)
 {
-
     uint8_t message[1];
     message[0] = 0xFF;
 
@@ -63,7 +61,7 @@ void LoRa::SendResponse(DataRead_t *data)
     message[2] = (data->pressure & 0xFF00) >> 8;
     message[3] = (data->pressure & 0x00FF);
 
-    Serial.println("[INFO] Sending new packet");
+    Serial.println("[INFO] Sending response");
 
     loraRadio.write(message, 8);
 }
@@ -78,9 +76,9 @@ void LoRa::ReadResponse(DataReceived_t *data, uint8_t message[])
 
     /* Message strings array */
     String serialMessage[3] = {
-        "[INFO] New data packet received",
-        "Temperature: " + String(data->temperature) + " \u00b0C",
-        "Pressure: " + String(data->pressure) + " hPa",
+        "[INFO] Response received:",
+        "\tTemperature: " + String(data->temperature) + " \u00b0C",
+        "\tPressure: " + String(data->pressure) + " hPa",
     };
 
     for (uint8_t idx = 0; idx < (sizeof(serialMessage) / sizeof(serialMessage[0])); idx++)
