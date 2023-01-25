@@ -12,6 +12,8 @@
 #define SCL_PIN PB6
 #define SENSOR_ADDR 0x77
 
+#define SEA_LEVEL_PRESSURE 1013.25
+
 typedef struct
 {
     uint16_t temperature;
@@ -33,6 +35,7 @@ namespace BME280
     /* Inits BME280 sensor*/
     extern void HardwareInit(void);
     extern void DataInit(DataRead_t *data);
+    extern void ReadData(DataRead_t *data);
 };
 
 #endif /* _BME_280 */
