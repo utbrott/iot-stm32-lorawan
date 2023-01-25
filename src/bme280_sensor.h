@@ -18,16 +18,12 @@ typedef struct
 {
     uint16_t temperature;
     uint16_t pressure;
-    uint16_t altitude;
-    uint16_t humidity;
 } DataRead_t;
 
 typedef struct
 {
     float temperature;
     float pressure;
-    float altitude;
-    float humidity;
 } DataReceived_t;
 
 namespace BME280

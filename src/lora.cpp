@@ -23,11 +23,11 @@ void LoRa::ShieldInit(ModuleType_t moduleType)
 
     while (!loraRadio.begin(&SerialLora))
     {
-        Serial.println("LoRa Shield not ready!");
+        Serial.println("[INFO] LoRa Shield not ready!");
         delay(1000); /* Give module 1s to init */
     }
 
-    Serial.print("LoRa module ready!");
+    Serial.println("[INFO] Shield ready!");
 
     if (moduleType == SLAVE)
     {
@@ -39,12 +39,12 @@ void LoRa::DataInit(DataReceived_t *data)
 {
     data->temperature = 0;
     data->pressure = 0;
-    data->altitude = 0;
-    data->humidity = 0;
 }
 
-void LoRa::SendMessage(DataRead_t *data, uint8_t message[])
+void LoRa::SendMessage(DataRead_t *data)
 {
+    uint8_t message[8];
+
     /* Split each 16-bit data to 2x8-bit ones, with bit masking */
     message[0] = (data->temperature & 0xFF00) >> 8;
     message[1] = (data->temperature & 0x00FF);
@@ -52,19 +52,7 @@ void LoRa::SendMessage(DataRead_t *data, uint8_t message[])
     message[2] = (data->pressure & 0xFF00) >> 8;
     message[3] = (data->pressure & 0x00FF);
 
-    message[4] = (data->altitude & 0xFF00) >> 8;
-    message[5] = (data->altitude & 0x00FF);
-
-    message[6] = (data->humidity & 0xFF00) >> 8;
-    message[7] = (data->humidity & 0x00FF);
-
-    for (uint8_t idx = 0; idx < 8; idx++)
-    {
-        /* Print each package element to Serial */
-        Serial.println(message[idx]);
-    }
-
-    Serial.println();
+    Serial.println("[INFO] Sending new packet");
 
     loraRadio.write(message, 8);
 }
@@ -72,22 +60,19 @@ void LoRa::SendMessage(DataRead_t *data, uint8_t message[])
 void LoRa::ReceiveMessage(DataReceived_t *data, uint8_t message[])
 {
     /* Merge each 2x8-bit packs to 16-bit ones, fix floats */
-    data->temperature = (float)(message[0] << 8 + message[1]);
-    data->pressure = (float)(message[2] << 8 + message[3]);
-    data->altitude = (float)(message[4] << 8 + message[5]);
-    data->humidity = (float)(message[6] << 8 + message[7]);
+    data->temperature = (float)((message[0] << 8) + message[1]) / 100;
+    data->pressure = (float)((message[2] << 8) + message[3]);
 
     memset(message, 0, 8);
 
     /* Message strings array */
-    String serialMessage[4] = {
-        "Temperature: " + String(message[0]) + " \u00b0C",
-        "Pressure: " + String(message[1]) + " hPa",
-        "Altitude: " + String(message[2]) + " m",
-        "Humidity: " + String(message[3]) + " %",
+    String serialMessage[5] = {
+        "[INFO] New data packet received",
+        "Temperature: " + String(data->temperature) + " \u00b0C",
+        "Pressure: " + String(data->pressure) + " hPa",
     };
 
-    for (uint8_t idx = 0; idx < 4; idx++)
+    for (uint8_t idx = 0; idx < (sizeof(serialMessage) / sizeof(serialMessage[0])); idx++)
     {
         Serial.println(serialMessage[idx]);
     }
