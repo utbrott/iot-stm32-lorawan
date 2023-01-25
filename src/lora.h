@@ -25,8 +25,9 @@ namespace LoRa
     void ShieldInit(ModuleType_t moduleType);
     void DataInit(DataReceived_t *data);
 
-    void SendMessage(DataRead_t *data);
-    void ReceiveMessage(DataReceived_t *data, uint8_t message[]);
+    void SendRequest(void);
+    void SendResponse(DataRead_t *data);
+    void ReadResponse(DataReceived_t *data, uint8_t message[]);
 };
 
 #endif /* _LORA_H */

@@ -41,7 +41,18 @@ void LoRa::DataInit(DataReceived_t *data)
     data->pressure = 0;
 }
 
-void LoRa::SendMessage(DataRead_t *data)
+void LoRa::SendRequest(void)
+{
+
+    uint8_t message[1];
+    message[0] = 0xFF;
+
+    Serial.println("[INFO] Sending new request");
+
+    loraRadio.write(message, 1);
+}
+
+void LoRa::SendResponse(DataRead_t *data)
 {
     uint8_t message[8];
 
@@ -57,7 +68,7 @@ void LoRa::SendMessage(DataRead_t *data)
     loraRadio.write(message, 8);
 }
 
-void LoRa::ReceiveMessage(DataReceived_t *data, uint8_t message[])
+void LoRa::ReadResponse(DataReceived_t *data, uint8_t message[])
 {
     /* Merge each 2x8-bit packs to 16-bit ones, fix floats */
     data->temperature = (float)((message[0] << 8) + message[1]) / 100;
@@ -76,4 +87,6 @@ void LoRa::ReceiveMessage(DataReceived_t *data, uint8_t message[])
     {
         Serial.println(serialMessage[idx]);
     }
+
+    Serial.println();
 }
