@@ -8,10 +8,6 @@ Technology.
 Visit the [Wiki](https://github.com/piotrs112/stm32-lorawan/wiki) to read more
 about the project.
 
-<h6>
-  Warning: Currently project's Wiki is only in Polish, as the course is in Polish
-</h6>
-
 # Features
 
 - BME280 Sensor to read surrouding's general temperature and pressure
