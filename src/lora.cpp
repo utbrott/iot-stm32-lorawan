@@ -5,8 +5,21 @@ HardwareSerial SerialLora(PA10, PA9);
 void LoRa::ShieldInit(ModuleType_t moduleType)
 {
     Serial.begin(115200);
-    Serial.println("IOT::LoRa");
-    Serial.println(String(moduleType));
+
+    Serial.println("**** IOT ****");
+    switch (moduleType)
+    {
+    case SLAVE:
+        Serial.println("LoRa SLAVE Module");
+        break;
+
+    case MASTER:
+        Serial.println("LoRa MASTER Module");
+        break;
+
+    default:
+        break;
+    }
 
     while (!loraRadio.begin(&SerialLora))
     {
