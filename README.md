@@ -1,12 +1,18 @@
-# STM32 LoraWan
+# STM32 LoRa WAN
 
-Embedded Systems IOT project that utilizes STM32 L152 Nucleo and USI STM32 to create a two-way LoRa message exchange.
+Embedded Systems IOT project that utilizes STM32 L152 Nucleo and USI STM32 LoRa
+expansion boardto create a two-way LoRa message exchange.
 
 Developed for IOT: Internet of Things course @ WUT Warsaw University of
 Technology.
 
-Visit the [Wiki](https://github.com/piotrs112/stm32-lorawan/wiki) to read more
-about the project.
+<h6>
+  Note: this repositiory is a shallow copy of the original repo, where the
+  project was originally developed, created only for future development
+  possibilites. Purpose of this shallow copy is to remove old branches, code
+  and unstandarized commits. If you wish to view the orignal repo, follow
+  <a href="https://github.com/piotrs112/stm32-lorawan.git">this link</a>.
+</h6>
 
 # Features
 
@@ -32,8 +38,7 @@ about the project.
 |   |- bme280_sensor.h (interfacing, using Adafruit BME280 sensor)
 |   |- bme280_sensor.cpp
 |
-|- LICENSE
-|- platformio.ini
+|- platformio.ini (project config for PlatformIO)
 |- README.md --> This file
 ```
 
