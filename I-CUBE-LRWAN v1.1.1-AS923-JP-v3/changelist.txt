@@ -1,0 +1,165 @@
+Original version: I-CUBE-LRWAN v1.1.1: http://www.st.com/i-cube-lrwan
+Modified version: I-CUBE-LRWAN v1.1.1-AS923-JP-v3
+
+=============================================================================================
+
+Detailed Change List for I-CUBE-LRWAN v1.1.1-AS923-JP-v3
+--------------------------------------------------------
+
+>> Note: I-CUBE-LRWAN v1.1.1-AS923-JP-v3 includes all changes from I-CUBE-LRWAN v1.1.1-AS923-JP-v1, plus the following additional changes:
+
+
+* ...\Projects\Multi\Applications\LoRa\End_Node: End Node example project files
+  - Keil-MDK-ARM: Updated command to generate binary file in Settings > User > After Build/Rebuild (removes Keil install path dependency):
+	$K\ARM\ARMCC\bin\fromelf.exe --bin --output=@L.bin !L
+
+* ...\Projects\Multi\Applications\LoRa\AT_Slave: AT Slave example project files
+  - IAR-EWARM: Updated ST-Link settings to "Connect during reset" (necessary for connecting to MCU in low power mode)
+  - IAR-EWARM: Changed region in preprocessor to REGION_AS923; also added REGION_AS923_JAPAN
+  - Keil-MDK-ARM: Changed region in preprocessor to REGION_AS923; also added REGION_AS923_JAPAN
+  - Keil-MDK-ARM: Changed name of executable from Lora to LORA_DISCOVERY_AT_SLAVE
+  
+  - Keil-MDK-ARM: Added command to generate binary file in Settings > User > After Build/Rebuild: 
+	$K\ARM\ARMCC\bin\fromelf.exe --bin --output=@L.bin !L
+
+* ...\Projects\Multi\Applications\LoRa\AT_Slave\src\vcom.c:
+  - Updated USART baud rate to 115200 baud. *** NOTE *** This baudrate is different from the one listed in AN4967
+    NOTE: At the original 9600 baud, when TRACE is enabled, the UART outputs take too long and impact LoRa timing (cannot Join using OTAA)
+  - Updated comments to reflect actual USART settings used.
+	
+* ...\Projects\Multi\Applications\LoRa\AT_Slave\src\lora.c
+  - Included "LoRaMacTest.h" to remove warning about implicit declaration of LoRaMacTestDutyCycleOn().
+  - Added condition check to print OTAA vs ABP parameters
+  - Added debug print statements:
+    + lora_fsm(): Print currently configured region name
+	+ lora_fsm(): Print DevAddr and Session keys after OTAA Join 
+	
+* ...\Projects\Multi\Applications\LoRa\AT_Slave\src\hw_rtc.c:
+  - Added "\r" to line 594
+ 
+----
+
+LoRaBootcamp June 2017 - Settings changed for easier Hands-On lab experience:
+
+* ...\Projects\Multi\Applications\LoRa\HelloLED: HelloLED example project files
+  - Keil-MDK-ARM: Updated command to generate binary file in Settings > User > After Build/Rebuild (removes Keil install path dependency):
+	$K\ARM\ARMCC\bin\fromelf.exe --bin --output=@L.bin !L
+
+* ...\Projects\Multi\Applications\LoRa\End_Node\inc\hw_conf.h
+  - Uncommented DEBUG and TRACE (features enabled)
+  - Uncommented LOW_POWER_DISABLE (low power mode disabled)
+
+* ...\Projects\Multi\Applications\LoRa\End_Node\inc\Comissioning.h  
+  - #define LORAWAN_DEVICE_EUI { 0xaa, 0x00, 0xcc, 0x01, 0xee, 0x02, 0xff, 0xff } // // Change default DevEUI for easier editing ** LoRaBootcamp Osaka June 2017 **
+  - #define STATIC_DEVICE_EUI   1
+
+* ...\Projects\Multi\Applications\LoRa\AT_Slave\src\main.c
+  - #define LORAWAN_ADR_ON      0
+
+----
+  
+  
+=============================================================================================
+
+
+Detailed Change List for I-CUBE-LRWAN v1.1.1-AS923-JP-v1
+--------------------------------------------------------
+
+* ...\Projects\Multi\Applications\LoRa\End_Node: End Node example project files
+  - IAR-EWARM: Updated ST-Link settings to "Connect during reset" (necessary for connecting to MCU in low power mode)
+  - IAR-EWARM: Changed region in preprocessor to REGION_AS923; also added REGION_AS923_JAPAN
+  - Keil-MDK-ARM: Changed region in preprocessor to REGION_AS923; also added REGION_AS923_JAPAN
+  - Keil-MDK-ARM: Changed name of executable from NUCLEO_CUBE_LORA to LORA_DISCOVERY
+  
+  - Keil-MDK-ARM: Added command to generate binary file in Settings > User > After Build/Rebuild: 
+	C:\Keil_v5\ARM\ARMCC\bin\fromelf.exe --bin mlm32l07x01\LORA_DISCOVERY.axf --output mlm32l07x01\LORA_DISCOVERY.bin
+	>> NOTE: If your Keil install directory is different from default C:\Keil_v5, please update the command path shown above.
+
+* ...\Projects\Multi\Applications\LoRa\End_Node\src\vcom.c:
+  - Updated comments to reflect actual USART settings used.
+	
+* ...\Drivers\BSP\Components\sx1276\sx1276.h:
+  - Added function declaration: void SX1276SetFskBandwidth( uint32_t bandwidth );
+  - Added function declaration: int16_t SX1276GetChannelRssi( RadioModems_t modem, uint32_t freq );
+  
+* ...\Drivers\BSP\Components\sx1276\sx1276.c:
+  - Added function definition: void SX1276SetFskBandwidth( uint32_t bandwidth )
+  - Added function definition: int16_t SX1276GetChannelRssi( RadioModems_t modem, uint32_t freq )
+  
+* ...\Middlewares\Third_Party\Lora\Phy\radio.h:
+  - Added SetFskBandwidth() and GetChannelRssi() function pointers to Radio_s structure definition (at bottom)
+
+* ...\Drivers\BSP\MLM32L07X01\mlm32l07x01.c:
+  - Added functions to Radio driver structure initialization
+    + SX1276SetFskBandwidth
+    + SX1276GetChannelRssi  
+
+* ...\Middlewares\Third_Party\Lora\Mac\region\RegionAS923.h
+  - Updated default settings for AS923 Japan region:
+    + AS923_TX_MAX_DATARATE = DR_5
+	+ AS923_RX_MAX_DATARATE = DR_5
+	+ AS923_DEFAULT_UPLINK_DWELL_TIME = 0
+    + AS923_DEFAULT_DOWNLINK_DWELL_TIME = 0
+	+ AS923_DEFAULT_MAX_EIRP = 13.0f
+  - Added definition for Japan region max channel bandwidth as 200 kHz (used for carrier sense)
+    + #define AS923_JAPAN_CHANNEL_MAX_BANDWIDTH   200000 
+  
+* ...\Middlewares\Third_Party\Lora\Mac\region\RegionAS923.c
+  - RegionAS923NextChannel(): Replaced call to Radio.IsChannelFree() with Radio.GetChannelRssi()
+  - RegionAS923NextChannel(): Set modem to FSK and measure RSSI of full channel bandwidth for AS923 Japan region
+  - RegionAS923NextChannel(): Added debug printf call to print channel RSSI when channel is found to be busy and free
+  - VerifyTxFreq(): Updated definition to bounds-check Japan CH24~38; other channels need different Dwell time and other related settings.
+ 
+* ...\Projects\Multi\Applications\LoRa\End_Node\src\main.c
+  - Added declarations/definitions for Debug/Trace:
+    + static void Print_App_Settings( void );
+    + extern void Print_Lora_Settings( void );
+    + static bool printedOnce = 0;
+  - Added call to Print_App_Settings() in main.
+  - Added call to Print_Lora_Settings() in main while loop to print once after joined.
+  - Added debug print statement to print sensor data
+  - Added function declaration and definition: static void floatToInt(float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec);
+  - Moved local variables from LoraTxData() to global scope in main.c for access from main while loop
+  - Added variable printSensorData for flagging when to print sensor data from main while loop  
+    
+* ...\Middlewares\Third_Party\Lora\Mac\LoraMac.c
+  - For debug/trace, added function definition for Print_Lora_Settings()
+  - Added/updated various debug print statements:
+    + OnRadioRxDone(): DBG_PRINTF(">> Downlink# = %d Type = %d\n\r", DownLinkCounter, macHdr.Bits.MType);
+	+ OnRadioRxDone(): DBG_PRINTF("\t --- ACK received ---\n\r");
+	+ SendFrameOnChannel(): DBG_PRINTF("\n\r*** JOIN REQ= %d *** PktLen= %d\n\r",JoinRequestTrials, LoRaMacBufferPktLen);
+	+ SendFrameOnChannel(): DBG_PRINTF("\n\r*** seqTx= %d *** PktLen= %d\n\r",UpLinkCounter, LoRaMacBufferPktLen);
+	+ AddMacCommand(): Print each command name
+	+ ProcessMacCommands(): Print each command name
+	
+* ...\Middlewares\Third_Party\Lora\Core\lora.c
+  - Added debug print statements:
+    + lora_fsm(): Print currently configured region name
+	+ lora_fsm(): Print DevAddr and Session keys after OTAA Join
+	
+----
+
+LoRaBootcamp June 2017 - Hands-On Specific Settings related to NTT West LoRa Gateways:
+
+* Added HelloLED project for Bootcamp: ...\Projects\Multi\Applications\LoRa\HelloLED\MDK-ARM\
+
+* ...\Projects\Multi\Applications\LoRa\End_Node\inc\hw_conf.h
+  - Uncommented DEBUG and TRACE (features enabled)
+  - Uncommented LOW_POWER_DISABLE (low power mode disabled)
+
+* ...\Middlewares\Third_Party\Lora\Mac\region\RegionAS923.h
+  - #define AS923_RX_WND_2_FREQ  921800000 // Change default CH37 to CH30 ** LoRaBootcamp Osaka June 2017 **
+  - #define AS923_RX_WND_2_DR  DR_0 // Change default DR_2 to DR_0 ** LoRaBootcamp Osaka June 2017 **
+  - #define AS923_LC1 { 921800000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 } // Change default CH37 to CH30 ** LoRaBootcamp Osaka June 2017 **
+  - #define AS923_LC2 { 922000000, 0, { ( ( DR_5 << 4 ) | DR_0 ) }, 0 } // Change default CH38 to CH31 ** LoRaBootcamp Osaka June 2017 **
+  
+* ...\Projects\Multi\Applications\LoRa\End_Node\inc\Comissioning.h  
+  - #define LORAWAN_DEVICE_EUI { 0xaa, 0x00, 0xcc, 0x01, 0xee, 0x02, 0xff, 0xff } // // Change default DevEUI for easier editing ** LoRaBootcamp Osaka June 2017 **
+  - #define STATIC_DEVICE_EUI   1
+  
+* ...\Projects\Multi\Applications\LoRa\End_Node\src\main.c
+  - #define LORAWAN_ADR_ON      0
+  
+----
+
+=============================================================================================
